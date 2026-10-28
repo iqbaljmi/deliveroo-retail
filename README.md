@@ -23,7 +23,7 @@ The `Availability` sheet is used when present, otherwise the first sheet is used
 
 - `GET /api/products?siteId=718446`: gets the allowlisted site's live catalogue; no DB.
 - `GET /api/availability?siteId=718446`: gets that site's live unavailable / hidden lists.
-- `POST /api/import`: accepts multipart `siteId` and `file`, validates the allowlisted site and workbook store identifiers, refreshes that store's catalogue and validates the imported rows. Maximum 5 MB and 10,000 data rows.
+- `POST /api/import`: accepts multipart `siteId` and `file`, validates the allowlisted site and workbook store identifiers, refreshes that store's catalogue and validates the imported rows. Maximum 4 MB and 10,000 data rows.
 - `POST /api/update`: accepts `{ "siteId":"718446", "sourceSiteId":"718446", "updates": [{"item_id":"...", "status":"unavailable"}] }`, allowlists the site, rejects a mismatched import Site ID, validates product IDs against that site's live catalogue, calls Deliveroo and verifies current status.
 
 ## Important

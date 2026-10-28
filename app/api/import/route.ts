@@ -19,8 +19,8 @@ export async function POST(req: Request) {
     if (!(file instanceof File) || !/\.xlsx?$/i.test(file.name)) {
       return NextResponse.json({ error: 'Upload an .xlsx or .xls file' }, { status: 400 });
     }
-    if (!file.size || file.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: 'Upload a nonempty Excel file (maximum 5MB)' }, { status: 400 });
+    if (!file.size || file.size > 4 * 1024 * 1024) {
+      return NextResponse.json({ error: 'Upload a nonempty Excel file (maximum 4MB)' }, { status: 400 });
     }
     source = parseAvailabilityWorkbook(await file.arrayBuffer(), site.id);
   } catch (error) {

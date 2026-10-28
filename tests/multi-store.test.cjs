@@ -156,7 +156,7 @@ test('imports validate unknown products, invalid statuses and duplicate aliases'
 test('bad files, excessive row counts and malformed update JSON return 400', async () => {
   const app = backend();
   const route = app.load('app/api/import/route.ts');
-  for (const request of [importRequest(A, workbook(), 'wrong.csv'), importRequest(A, new ArrayBuffer(0)), importRequest(A, new ArrayBuffer(5 * 1024 * 1024 + 1)), importRequest(A, workbook(A, null, Array.from({ length: 10001 }, () => [A, barcode, 'hidden'])))]) {
+  for (const request of [importRequest(A, workbook(), 'wrong.csv'), importRequest(A, new ArrayBuffer(0)), importRequest(A, new ArrayBuffer(4 * 1024 * 1024 + 1)), importRequest(A, workbook(A, null, Array.from({ length: 10001 }, () => [A, barcode, 'hidden'])))]) {
     assert.equal((await route.POST(request)).status, 400);
   }
   assert.equal((await app.load('app/api/update/route.ts').POST(new Request('http://test/api/update', { method: 'POST', body: '{broken' }))).status, 400);

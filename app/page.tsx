@@ -48,7 +48,7 @@ export default function Home(){
   const isCurrent=()=>version===siteVersion.current&&upload===importVersion.current&&selectedSiteIdRef.current===siteId;
   setImporting(true);setSource([]);setError('');setResult('');setConfirm(false);setAllowUnhide(false);setFilename('');try{
   if(!/\.xlsx?$/i.test(file.name))throw new Error('Upload an .xlsx or .xls file');
-  if(file.size>5*1024*1024)throw new Error('Excel file too large (maximum 5MB)');
+  if(file.size>4*1024*1024)throw new Error('Excel file too large (maximum 4MB)');
   const form=new FormData();form.set('siteId',siteId);form.set('file',file);
   const imported=await fetchJson<{site:Site;products:Product[];source:ImportSourceRow[];availability:Availability}>('/api/import',{method:'POST',body:form});
   if(!isCurrent())return;
@@ -295,7 +295,7 @@ function exportProductsExcel() {
   </div>{products.length>0&&syncedSiteId===selectedSiteId&&<div className="notice good"><CheckCircle2 size={17}/> {products.length} products retrieved for {selectedSite?.name} ({selectedSiteId}). Barcode matching is ready.</div>}</section>
   <section className="panel"><div className="panelhead"><div><h2>2. Import availability Excel</h2><p>Required columns: <b>Site ID</b>, <b>Barcode</b> and <b>Status</b> (Available, Unavailable, Hidden). Every row must match the selected store.</p></div><button className="textbutton" onClick={template} disabled={!selectedSite||submitting}><Download size={16}/> Download site template</button></div>
    <input type="file" accept=".xlsx,.xls" ref={fileInput} hidden onChange={e=>{const f=e.target.files?.[0];if(f)void loadFile(f);e.currentTarget.value='';}}/>
-   <button className="drop" disabled={!canImport} onClick={()=>fileInput.current?.click()}><FileSpreadsheet size={30}/><strong>{importing?'Validating spreadsheet...':filename||'Choose an Excel spreadsheet'}</strong><span>{!selectedSite?'Select a store first':syncedSiteId!==selectedSiteId?'Sync the selected store first':'For '+selectedSite.name+' - '+selectedSite.id} | XLSX or XLS | Max 5 MB</span><em><CloudUpload size={16}/> Select Excel File</em></button>
+   <button className="drop" disabled={!canImport} onClick={()=>fileInput.current?.click()}><FileSpreadsheet size={30}/><strong>{importing?'Validating spreadsheet...':filename||'Choose an Excel spreadsheet'}</strong><span>{!selectedSite?'Select a store first':syncedSiteId!==selectedSiteId?'Sync the selected store first':'For '+selectedSite.name+' - '+selectedSite.id} | XLSX or XLS | Max 4 MB</span><em><CloudUpload size={16}/> Select Excel File</em></button>
   </section>
   {source.length>0&&<section className="panel"><div className="panelhead"><div><h2>3. Review product updates</h2><p>{rows.length} rows | {ready.length} valid | {changed.length} changed | {plan?.unchanged||0} unchanged | {plan?.protected||0} hidden kept | {failures.length} invalid</p></div><span className={failures.length?'chip danger':'chip success'}>{failures.length?'Fix errors before submission':changed.length?'Review changes':'No changes to send'}</span></div><div className="tablewrap"><table><thead><tr><th>Excel row</th><th>Site ID</th><th>Barcode</th><th>Product</th><th>Current status</th><th>Excel status</th><th>Action</th></tr></thead><tbody>{rows.slice(0,200).map((r,i)=>{
    const comparison=r.product?comparisons.get(r.product.id):undefined;
