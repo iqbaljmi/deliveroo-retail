@@ -1,0 +1,62 @@
+.store {
+  min-width: 340px;
+}
+
+.sync-controls {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.sync-controls label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #243b4e;
+}
+
+.sync-controls select {
+  width: 100%;
+  padding: 11px 34px 11px 12px;
+  border: 1px solid #d4e1e9;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a2935;
+  font-size: 13px;
+}
+
+.sync-controls select:disabled {
+  opacity: 0.6;
+}
+
+.store small {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.sync-controls small {
+  color: #72808d;
+  font-size: 11px;
+}
+
+.sync-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.drop:disabled {
+  cursor: not-allowed;
+}
+
+@media (max-width: 750px) {
+  .store {
+    min-width: 0;
+  }
+
+  .sync-controls {
+    max-width: none;
+  }
+}
